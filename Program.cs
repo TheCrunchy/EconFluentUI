@@ -1,5 +1,6 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using FluentUI.Components;
+using Econ.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddFluentUIComponents();
+
+builder.Services.AddEconServices();
+
 
 var app = builder.Build();
 
