@@ -2,7 +2,8 @@
     <PropertyColumn Property="@(p => p.SteamId)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Action)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Amount)" Sortable="true" />
-    <PropertyColumn Property="@(p => $"{p.TypeIdString}/{p.SubtypeName}")" Sortable="true" />
+    <PropertyColumn Property="@(p => $"{p.TypeIdString.Replace("MyObjectBuilder_", "")}")" Title="Type Id" Sortable="true" />
+    <PropertyColumn Property="@(p => $"{p.SubtypeName}")" Title="Subtype" Sortable="true" />
     <PropertyColumn Property="@(p => p.StoreName)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Time)" Sortable="true" />
     <PropertyColumn Property="@(p => p.CubeGridDisplayName)" Title="Grid Name" Sortable="true" />
