@@ -1,4 +1,4 @@
-﻿<FluentDataGrid Items="@GridData">
+﻿<FluentDataGrid Items="@GridData" Pagination="@pagination">
     <PropertyColumn Property="@(p => p.SteamId)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Action)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Amount)" Sortable="true" />
@@ -7,3 +7,4 @@
     <PropertyColumn Property="@(p => p.Time)" Sortable="true" />
     <PropertyColumn Property="@(p => p.CubeGridDisplayName)" Title="Grid Name" Sortable="true" />
 </FluentDataGrid>
+<FluentPaginator State="@pagination" />

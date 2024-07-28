@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using FluentUI.Components.Statistics
 @rendermode InteractiveServer
 @ServerId
 <PageTitle>Home</PageTitle>
@@ -8,13 +9,11 @@
         <FluentMenuItem Id="@item.Key">@item.Value</FluentMenuItem>
     }
 </FluentMenuButton>
- 
+
 @code {
     private FluentMenuButton menubutton = new();
-
+    private StoresTransactionsComponent TransactionsComponent;
     private Guid ServerId;
-
-    private Action? Changed { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,9 +29,10 @@
     private async Task HandleOnMenuChanged(MenuChangeEventArgs args)
     {
         ServerId = Guid.Parse(args.Id);
-        Changed?.Invoke();
+        TransactionsComponent.ServerId = ServerId;
+        await TransactionsComponent.LoadData();
     }
 
 }
 
- <FluentUI.Components.Statistics.StoresTransactionsComponent ServerId="@ServerId" Changed="@Changed"></FluentUI.Components.Statistics.StoresTransactionsComponent> 
+<FluentUI.Components.Statistics.StoresTransactionsComponent @ref=@TransactionsComponent ServerId="@ServerId"></FluentUI.Components.Statistics.StoresTransactionsComponent> 
