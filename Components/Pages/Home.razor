@@ -1,4 +1,38 @@
 ﻿@page "/"
-
+@rendermode InteractiveServer
+@ServerId
 <PageTitle>Home</PageTitle>
-<FluentUI.Components.Statistics.StoresTransactionsComponent></FluentUI.Components.Statistics.StoresTransactionsComponent>
+<FluentMenuButton @ref=menubutton Text="Select server" OnMenuChanged="HandleOnMenuChanged">
+    @foreach (var item in items)
+    {
+        <FluentMenuItem Id="@item.Key">@item.Value</FluentMenuItem>
+    }
+</FluentMenuButton>
+ 
+@code {
+    private FluentMenuButton menubutton = new();
+
+    private Guid ServerId;
+
+    private Action? Changed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        items.Add(Guid.Empty.ToString(), "Default server");
+        items.Add(Guid.NewGuid().ToString(), "Server 1");
+        items.Add(Guid.NewGuid().ToString(), "Server 2");
+        items.Add(Guid.NewGuid().ToString(), "Server 3");
+
+        await InvokeAsync(StateHasChanged);
+    }
+    private Dictionary<string, string> items = new Dictionary<string, string>();
+
+    private async Task HandleOnMenuChanged(MenuChangeEventArgs args)
+    {
+        ServerId = Guid.Parse(args.Id);
+        Changed?.Invoke();
+    }
+
+}
+
+ <FluentUI.Components.Statistics.StoresTransactionsComponent ServerId="@ServerId" Changed="@Changed"></FluentUI.Components.Statistics.StoresTransactionsComponent> 

@@ -12,16 +12,22 @@ namespace FluentUI.Components.Statistics
 {
     public partial class StoresTransactionsComponent
     {
-        [Parameter] public Guid ServerId { get; set; }
+        [Parameter] public Guid ServerId { get; set; } 
+        [Parameter] public Action Changed { get; set; } 
 
-        [Inject] private IStoreTransactionStatisticsService _transactionService { get; set; }
+        [Inject] private IStoreLogService _storeLogsService { get; set; }
 
         private IQueryable<StoreTransaction> GridData { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            var data = await _transactionService.ProcessFilesInParallel(@"C:\Users\Cameron\Documents\4 Torch Server\Instance\CrunchEconV3\EconEntries");
-            GridData = data.Values.AsQueryable();
+            Changed = async () => await LoadData();
+        }
+
+        public async Task LoadData()
+        {
+            var data = await _storeLogsService.GetTransactionsAsync(ServerId);
+            GridData = data.AsQueryable();
         }
     }
 }
