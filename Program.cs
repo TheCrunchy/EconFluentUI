@@ -13,7 +13,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddFluentUIComponents();
 
 builder.Services.AddEconServices();
-
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -29,7 +29,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
