@@ -1,5 +1,4 @@
 ﻿<FluentDataGrid Items="@GridData" Pagination="@pagination">
-    <PropertyColumn Property="@(p => p.SteamId)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Action)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Amount)" Sortable="true" />
     <PropertyColumn Property="@(p => $"{p.TypeIdString.Replace("MyObjectBuilder_", "")}")" Title="Type Id" Sortable="true" />

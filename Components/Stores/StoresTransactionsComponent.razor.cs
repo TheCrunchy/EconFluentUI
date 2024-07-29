@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace FluentUI.Components.Statistics
+namespace FluentUI.Components.Stores
 {
     public partial class StoresTransactionsComponent
     {
