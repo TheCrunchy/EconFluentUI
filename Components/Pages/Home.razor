@@ -13,6 +13,7 @@
 @code {
     private FluentMenuButton menubutton = new();
     private StoresTransactionsComponent TransactionsComponent;
+    private LiveStoreDataComponent LiveData;
     private Guid ServerId;
 
     protected override async Task OnInitializedAsync()
@@ -31,8 +32,10 @@
         ServerId = Guid.Parse(args.Id);
         TransactionsComponent.ServerId = ServerId;
         await TransactionsComponent.LoadData();
+        await LiveData.LoadData(ServerId);
     }
 
 }
 
 <FluentUI.Components.Stores.StoresTransactionsComponent @ref=@TransactionsComponent ServerId="@ServerId"></FluentUI.Components.Stores.StoresTransactionsComponent> 
+<FluentUI.Components.Stores.LiveStoreDataComponent @ref=@LiveData ServerId="@ServerId"></FluentUI.Components.Stores.LiveStoreDataComponent> 
