@@ -41,5 +41,11 @@ namespace FluentUI.Controllers
             _storeDataService.AddKeenStoreData(message.ServerId, storeData);
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok();
+        }
     }
 }

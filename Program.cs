@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpClient();
 
 builder.Services.AddFluentUIComponents();
-
+builder.Services.AddServerSideBlazor();
 builder.Services.AddEconServices();
 builder.Services.AddControllers();
 
@@ -26,7 +26,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
 app.MapControllers();
