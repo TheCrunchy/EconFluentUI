@@ -24,17 +24,21 @@ namespace FluentUI.Components.Stores
         {
             get
             {
-                var result = UnfilteredData.Where(x => x.ExpireAt > DateTime.Now);
-                if (result is not null && !string.IsNullOrEmpty(typeFilter))
+                if (UnfilteredData != null)
                 {
-                    result = result.Where(c => c.TypeId.Contains(typeFilter, StringComparison.CurrentCultureIgnoreCase));
-                }
-                if (result is not null && !string.IsNullOrEmpty(subTypeFilter))
-                {
-                     result = result.Where(c => c.SubTypeId.Contains(subTypeFilter, StringComparison.CurrentCultureIgnoreCase));
-                }
+                    var result = UnfilteredData;
+                    if (result is not null && !string.IsNullOrEmpty(typeFilter))
+                    {
+                        result = result.Where(c => c.TypeId.Contains(typeFilter, StringComparison.CurrentCultureIgnoreCase));
+                    }
+                    if (result is not null && !string.IsNullOrEmpty(subTypeFilter))
+                    {
+                        result = result.Where(c => c.SubTypeId.Contains(subTypeFilter, StringComparison.CurrentCultureIgnoreCase));
+                    }
 
-                return result;
+                    return result;
+                }
+                return new List<KeenNPCStoreEntry>().AsQueryable();
             }
         }
         private string typeFilter;
