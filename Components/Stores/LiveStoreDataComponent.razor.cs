@@ -24,7 +24,7 @@ namespace FluentUI.Components.Stores
         {
             get
             {
-                var result = UnfilteredData;
+                var result = UnfilteredData.Where(x => x.ExpireAt > DateTime.Now);
                 if (result is not null && !string.IsNullOrEmpty(typeFilter))
                 {
                     result = result.Where(c => c.TypeId.Contains(typeFilter, StringComparison.CurrentCultureIgnoreCase));
