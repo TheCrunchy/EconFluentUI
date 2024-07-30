@@ -1,7 +1,19 @@
 ﻿<FluentDataGrid Items="@GridData" Pagination="@pagination">
     <PropertyColumn Property="@(p => p.SaleType)" Sortable="true" />
-    <PropertyColumn Property="@(p => $"{p.TypeId.Replace("MyObjectBuilder_", "")}")" Title="Type Id" Sortable="true" />
-    <PropertyColumn Property="@(p => $"{p.SubTypeId}")" Title="Subtype" Sortable="true" />
+    <PropertyColumn Property="@(p => $"{p.TypeId.Replace("MyObjectBuilder_", "")}")" Filtered="!string.IsNullOrWhiteSpace(typeFilter)"  Title="Type Id" Sortable="true" >
+            <ColumnOptions>
+            <div class="search-box">
+                <FluentSearch Autofocus=true @bind-Value=typeFilter @oninput="HandleTypeFilter" @bind-Value:after="HandleClear" Placeholder="Type Id" Style="width: 100%;" Label="Filter" />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>
+    <PropertyColumn Property="@(p => $"{p.SubTypeId}")" Title="Subtype" Filtered="!string.IsNullOrWhiteSpace(subTypeFilter)" Sortable="true">
+        <ColumnOptions>
+            <div class="search-box">
+                <FluentSearch Autofocus=true @bind-Value=subTypeFilter @oninput="HandleSubTypeFilter" @bind-Value:after="HandleSubtypeClear" Placeholder="Subtype Id" Style="width: 100%;" Label="Filter" />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>
     <PropertyColumn Property="@(p => p.Price)" Sortable="true" />
     <PropertyColumn Property="@(p => p.Amount)" Sortable="true" />
     <PropertyColumn Property="@(p => p.GridName)" Title="Grid Name" Sortable="true" />
