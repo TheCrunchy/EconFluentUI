@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Econ.Models;
 using Econ.Models.Stores;
 using Econ.Services;
+using Econ.Models.Config;
 
 namespace FluentUI.Controllers
 {
@@ -18,12 +19,14 @@ namespace FluentUI.Controllers
     [Route("api/[controller]/[action]")]
     public class KeenStoresController : ControllerBase
     {
-        public KeenStoresController(LiveStoreDataService storeDataService, ILogger<KeenStoresController> logger)
+        public KeenStoresController(SpaceEngineersServerService serverService, LiveStoreDataService storeDataService, ILogger<KeenStoresController> logger)
         {
+            this.serverService = serverService;
             _storeDataService = storeDataService;
             this.logger = logger;
         }
 
+        private SpaceEngineersServerService serverService { get; set; }
         private LiveStoreDataService _storeDataService { get; set; }
         private ILogger<KeenStoresController> logger { get; set; }
 
@@ -31,16 +34,23 @@ namespace FluentUI.Controllers
         public async Task<IActionResult> PostKeenStores([FromBody] object jsonMessage)
         {
             var message = JsonConvert.DeserializeObject<APIMessage>(jsonMessage.ToString());
+            var config = new ServerConfig()
+            {
+                ServerName = message.ServerName,
+                ServerId = message.ServerId,
+                AuthKey = message.ServerName
+            };
 
-            //if (message.APIKEY != Program.APIKEY)
-            //{
-            //    return Unauthorized("API KEY IS NOT VALID");
-            //}
-            var storeData = JsonConvert.DeserializeObject<List<KeenNPCStoreEntry>>(message.JsonMessage.ToString());
-            logger.Log(LogLevel.Information, $"Processing event : {storeData}");
-            _storeDataService.AddKeenStoreData(message.ServerId, storeData);
-            return Ok();
-        }
+            if (serverService.AddServer(config))
+            {
+                var storeData = JsonConvert.DeserializeObject<List<KeenNPCStoreEntry>>(message.JsonMessage.ToString());
+                logger.Log(LogLevel.Information, $"Processing event : {storeData}");
+                _storeDataService.AddKeenStoreData(message.ServerId, storeData);
+                return Ok();
+            }
+
+            return Unauthorized();
+            }
 
         [HttpGet]
         public IActionResult GetAll()
