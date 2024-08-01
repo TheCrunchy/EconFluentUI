@@ -26,9 +26,9 @@ namespace FluentUI.Components.Stores
 
         public async Task LoadData()
         {
-            var data = await _storeLogsService.GetTransactionsAsync(ServerId);
-            GridData = data.AsQueryable();
-            await InvokeAsync(StateHasChanged);
+       //     var data = await _storeLogsService.GetTransactionsAsync(ServerId);
+        //    GridData = data.AsQueryable();
+        //    await InvokeAsync(StateHasChanged);
         }
     }
 }

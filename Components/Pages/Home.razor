@@ -3,7 +3,7 @@
 @using FluentUI.Components.Stores
 @rendermode InteractiveServer
 <PageTitle>Home</PageTitle>
-<FluentMenuButton @ref=menubutton Text="Select server" OnMenuChanged="HandleOnMenuChanged">
+<FluentMenuButton @ref=menubutton Text="@ServerName" OnMenuChanged="HandleOnMenuChanged">
     @foreach (var item in items)
     {
         <FluentMenuItem Id="@item.Key">@item.Value</FluentMenuItem>
@@ -25,14 +25,15 @@
     [Inject]
     private SpaceEngineersServerService serverService { get; set; }
     private FluentMenuButton menubutton = new();
-    private StoresTransactionsComponent TransactionsComponent;
-    private LiveStoreDataComponent LiveData;
+    private StoresTransactionsComponent? TransactionsComponent;
+    private LiveStoreDataComponent? LiveData;
     private Guid ServerId;
+    private string ServerName = "Select Server";
 
     protected override async Task OnInitializedAsync()
     {
         serverService.ServersChanged += async () => { await SetupButton(); };
-
+        await SetupButton();
 
         await InvokeAsync(StateHasChanged);
     }
@@ -43,6 +44,7 @@
         {
             items[item.ServerId.ToString()] = item.ServerName;
         }
+        items[Guid.Empty.ToString()] = "Empty";
 
         //   await InvokeAsync(StateHasChanged);
     }
@@ -53,8 +55,10 @@
     {
         ServerId = Guid.Parse(args.Id);
         TransactionsComponent.ServerId = ServerId;
-        await TransactionsComponent.LoadData();
-        await LiveData.LoadData(ServerId);
+        LiveData.ServerId = ServerId;
+        ServerName = args.Value;
+       await TransactionsComponent?.LoadData();
+        await LiveData?.LoadData(ServerId);
     }
 
 }
