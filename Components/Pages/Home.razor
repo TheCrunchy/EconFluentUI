@@ -2,7 +2,6 @@
 @using Econ.Services
 @using FluentUI.Components.Stores
 @rendermode InteractiveServer
-@ServerId
 <PageTitle>Home</PageTitle>
 <FluentMenuButton @ref=menubutton Text="Select server" OnMenuChanged="HandleOnMenuChanged">
     @foreach (var item in items)
@@ -11,8 +10,19 @@
     }
 </FluentMenuButton>
 
+<FluentTabs>
+    <FluentTab Label="Live Store Data" Id="tab-2">
+            <FluentUI.Components.Stores.LiveStoreDataComponent @ref=@LiveData ServerId="@ServerId"></FluentUI.Components.Stores.LiveStoreDataComponent>
+      
+    </FluentTab>
+    <FluentTab Label="Historical transactions" Id="tab-3">
+        <FluentUI.Components.Stores.StoresTransactionsComponent @ref=@TransactionsComponent ServerId="@ServerId"></FluentUI.Components.Stores.StoresTransactionsComponent>
+    </FluentTab>
+
+</FluentTabs>
+
 @code {
-    [Inject] 
+    [Inject]
     private SpaceEngineersServerService serverService { get; set; }
     private FluentMenuButton menubutton = new();
     private StoresTransactionsComponent TransactionsComponent;
@@ -34,7 +44,7 @@
             items[item.ServerId.ToString()] = item.ServerName;
         }
 
-     //   await InvokeAsync(StateHasChanged);
+        //   await InvokeAsync(StateHasChanged);
     }
 
     private Dictionary<string, string> items = new Dictionary<string, string>();
@@ -49,5 +59,3 @@
 
 }
 
-<FluentUI.Components.Stores.StoresTransactionsComponent @ref=@TransactionsComponent ServerId="@ServerId"></FluentUI.Components.Stores.StoresTransactionsComponent> 
-<FluentUI.Components.Stores.LiveStoreDataComponent @ref=@LiveData ServerId="@ServerId"></FluentUI.Components.Stores.LiveStoreDataComponent> 

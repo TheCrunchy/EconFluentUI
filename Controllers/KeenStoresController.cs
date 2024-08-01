@@ -38,7 +38,7 @@ namespace FluentUI.Controllers
             {
                 ServerName = message.ServerName,
                 ServerId = message.ServerId,
-                AuthKey = message.ServerName
+                AuthKey = message.APIKEY
             };
 
             if (serverService.AddServer(config))
