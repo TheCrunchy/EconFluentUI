@@ -4,6 +4,7 @@ using Econ.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace FluentUI.Components.Stores
     public partial class LiveStoreDataComponent
     {
         [Parameter] public Guid ServerId { get; set; }
+        [Inject] public IJSRuntime JSRuntime { get; set; }
 
 
         [Inject] private LiveStoreDataService _storeLogsService { get; set; }
@@ -41,11 +43,28 @@ namespace FluentUI.Components.Stores
                 return new List<KeenNPCStoreEntry>().AsQueryable();
             }
         }
+
+        public async Task Changed(int index)
+        {
+            await RunScript();
+        }
+
+        public async Task RunScript()
+        {
+            await JSRuntime.InvokeVoidAsync("setSlotClasses");
+
+        }
+
         private string typeFilter;
         private string subTypeFilter;
         protected override async Task OnInitializedAsync()
         {
             _storeLogsService.DataRefreshed += async (Guid id) => { await LoadData(id); };
+
+        }
+        protected override async Task OnAfterRenderAsync(bool firstRender = false)
+        {
+            await RunScript();
         }
 
         public async Task LoadData(Guid serverId)
@@ -56,6 +75,8 @@ namespace FluentUI.Components.Stores
                 UnfilteredData = data.AsQueryable();
                 await InvokeAsync(StateHasChanged);
             }
+
+            await JSRuntime.InvokeVoidAsync("setSlotClasses");
         }
 
         private void HandleTypeFilter(ChangeEventArgs args)

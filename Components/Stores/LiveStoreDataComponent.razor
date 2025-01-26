@@ -1,7 +1,8 @@
-﻿<FluentDataGrid Items="@GridData" Pagination="@pagination">
+﻿<div id="MyGrid">
+    <FluentDataGrid Items="@GridData" Pagination="@pagination">
     <PropertyColumn Property="@(p => p.SaleType)" Sortable="true" />
-    <PropertyColumn Property="@(p => $"{p.TypeId.Replace("MyObjectBuilder_", "")}")" Filtered="!string.IsNullOrWhiteSpace(typeFilter)"  Title="Type Id" Sortable="true" >
-            <ColumnOptions>
+    <PropertyColumn Property="@(p => $"{p.TypeId.Replace("MyObjectBuilder_", "")}")" Filtered="!string.IsNullOrWhiteSpace(typeFilter)" Title="Type Id" Sortable="true">
+        <ColumnOptions>
             <div class="search-box">
                 <FluentSearch Autofocus=true @bind-Value=typeFilter @oninput="HandleTypeFilter" @bind-Value:after="HandleClear" Placeholder="Type Id" Style="width: 100%;" Label="Filter" />
             </div>
@@ -19,4 +20,29 @@
     <PropertyColumn Property="@(p => p.GridName)" Title="Grid Name" Sortable="true" />
     <PropertyColumn Property="@(p => p.KeenStationId)" Title="Grid Name" Sortable="true" />
 </FluentDataGrid>
-<FluentPaginator State="@pagination" />
+    <FluentPaginator State="@pagination" CurrentPageIndexChanged="Changed"/>
+</div>
+@code {
+    private string GetClassForTypeId(string typeId)
+    {
+        // Example: Apply a specific class based on the TypeId value
+        if (typeId.Contains("Special"))
+            return "special-type";
+        else if (typeId.StartsWith("TypeA"))
+            return "type-a";
+        else
+            return "default-type";
+    }
+}
+<style>
+
+    .Component {
+        color: gray;
+        font-style: italic;
+    }
+
+    .ConsumableItem {
+        color: red;
+        font-style: italic;
+    }
+</style>

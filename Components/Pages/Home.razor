@@ -2,6 +2,7 @@
 @using Econ.Services
 @using FluentUI.Components.Stores
 @rendermode InteractiveServer
+<script src="DataGridRowClasses.js"></script>
 <PageTitle>Home</PageTitle>
 <FluentMenuButton @ref=menubutton Text="@ServerName" OnMenuChanged="HandleOnMenuChanged">
     @foreach (var item in items)

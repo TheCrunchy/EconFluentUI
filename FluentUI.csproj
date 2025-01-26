@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\DataGridRowClasses.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\DataGridRowClasses.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\DataGridRowClasses.js" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.9.3 " />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.9.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
